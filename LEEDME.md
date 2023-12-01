@@ -19,9 +19,9 @@
 
 > _Crea un simple videojuego usando minilibx._
 
-El objetivo de este proyecto es crear un videojuego simple que consista en recoger coleccionables y salir por una puerta.
+El objetivo de este proyecto es crear un videojuego que consista en recoger todos los coleccionables de un mapa para desbloquear la puerta de salida y salir por ella.
 
-Para ello se ha de parsear el mapa para comprobar que cumpla las reglas abajo descritas. Si es así se dibujará en una pantalla emergente usando las funciones de la librería minilibs (hooks).
+Las reglas por las que se rige este videojuego son las siguientes:
 
 ### Reglas generales
 
@@ -49,11 +49,11 @@ program in a clean way.
 - [x] The map has to be constructed with 3 components: walls, collectibles, and free
 space.
 - [x] The map can be composed of only these 5 characters:
-    - 0 for an empty space,
-    - 1 for a wall,
-    - C for a collectible,
-    - E for a map exit,
-    - P for the player’s starting position.
+    - 0 for an empty space
+    - 1 for a wall
+    - C for a collectible
+    - E for the map's exit
+    - P for the player’s starting position
 - [x]  The map must contain 1 exit, at least 1 collectible, and 1 starting position to
 be valid.
 - [x] The map must be rectangular.
@@ -62,4 +62,5 @@ be valid.
 - [x] You must be able to parse any kind of map, as long as it respects the above rules.
 - [x] If any misconfiguration of any kind is encountered in the file, the program must exit in a clean way, and return "Error\n" followed by an explicit error message of your choice.
 
-
+## PATHFINDER
+Para poder evaluar si el mapa es resoluble se ha desarrollado una función (ft_pathfinder) que funciona como un algoritmo fill floor. Se asume que la puerta de salida es como una pared más, por lo que en caso de que haya coleccionables no accesibles por paredes o la salida el mapa no será resoluble.
