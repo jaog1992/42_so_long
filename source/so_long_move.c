@@ -20,7 +20,6 @@ void	ft_move_up(t_mapa *mapa1)
 	mapa1->map[mapa1->y][mapa1->x] = '0';
 	mapa1->map[mapa1->y - 1][mapa1->x] = 'P';
 	mapa1->move_count++;
-	mapa1->direction = 'U';
 	ft_put_floor(mapa1, mapa1->x, mapa1->y);
 	ft_put_player(mapa1, mapa1->x, mapa1->y - 1);
 	mapa1->y--;
@@ -33,7 +32,6 @@ void	ft_move_down(t_mapa *mapa1)
 		mapa1->collected++;
 	mapa1->map[mapa1->y][mapa1->x] = '0';
 	mapa1->map[mapa1->y + 1][mapa1->x] = 'P';
-	mapa1->direction = 'D';
 	ft_put_floor(mapa1, mapa1->x, mapa1->y);
 	ft_put_player(mapa1, mapa1->x, mapa1->y + 1);
 	mapa1->move_count++;

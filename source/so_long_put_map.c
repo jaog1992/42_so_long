@@ -25,8 +25,8 @@ void	ft_fill_floor(t_mapa *mapa1)
 		x = 0;
 		while (x < (int)mapa1->line_len)
 		{
-			mapa1->file = mlx_xpm_file_to_image(mapa1->ini,
-					"./assets/textures/floor.xpm", &mapa1->pxl, &mapa1->pxl);
+			mapa1->file = mlx_xpm_file_to_image(mapa1->ini,	ft_strjoin(mapa1->pwd,
+				"../../assets/textures/floor.xpm"), &mapa1->pxl, &mapa1->pxl);
 			if (!mapa1->file)
 				ft_print_error("!mapa1->file\n");
 			mlx_put_image_to_window(mapa1->ini, mapa1->window,

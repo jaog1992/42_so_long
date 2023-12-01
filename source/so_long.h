@@ -36,6 +36,7 @@ typedef struct s_mapa{
 	int		start;
 	int		win;
 	char	direction;
+	char	*pwd;
 }	t_mapa;
 
 enum {
@@ -78,5 +79,5 @@ int		argument_checker(int argc, char **argv);
 char	**allocate_char_array(int size);
 char	**read_file_lines(int fd, t_mapa *mapa1);
 void	parse_file(t_mapa *mapa1, char **argv);
-
+char	*ft_locate(char *str);
 #endif

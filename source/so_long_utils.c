@@ -87,5 +87,27 @@ t_mapa	*inicializar_mapa(void)
 	mapa1->exit = 0;
 	mapa1->start = 0;
 	mapa1->win = 0;
+	mapa1->direction = 'R';
 	return (mapa1);
+}
+
+char	*ft_locate(char *str)
+{
+	// Calculamos la posición para dividir la cadena
+	size_t len;
+    size_t split_pos;
+    char *first_half;
+
+	len = strlen(str);
+	if (len > 7)
+		split_pos = len - 7;
+	else
+		split_pos = 0;
+	first_half = (char*) malloc((split_pos + 1) * sizeof(char));
+	if (!first_half)
+		return (NULL);
+    // Creamos una cadena para la primera mitad
+    strncpy(first_half, str, split_pos);
+    first_half[split_pos] = '\0';
+	return(first_half);
 }

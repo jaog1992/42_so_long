@@ -107,6 +107,9 @@ int	main(int argc, char **argv)
 		ft_print_error("Wrong arguments");
 		return (EXIT_FAILURE);
 	}
+	mapa1->pwd = ft_locate(argv[0]);
+	//ft_printf("El string es %s\n", mapa1->pwd);
+	//ft_printf("La textura está en %s\n", ft_strjoin(mapa1->pwd, "../../assets/textures/wall.xpm"));
 	ft_window(mapa1);
 	mlx_hook(mapa1->window, ON_DESTROY, 1L << 5, ft_close_window, mapa1);
 	mlx_hook(mapa1->window, ON_KEYDOWN, 1L << 0, ft_keyboard, mapa1);
