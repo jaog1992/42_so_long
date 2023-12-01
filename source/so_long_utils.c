@@ -11,9 +11,9 @@
 /* ************************************************************************** */
 
 #include "so_long.h"
-#include "../libft/include/libft.h"
+#include "../libraries/libft/include/libft.h"
 
-int	dbl_free_ptr(Mapa *mapa1, char **ptr)
+int	dbl_free_ptr(t_mapa *mapa1, char **ptr)
 {
 	free(mapa1);
 	free(ptr);
@@ -36,64 +36,38 @@ int	ft_strrepeatchr(char *s, char c, int len)
 	return (0);
 }
 
-char **ft_dupchararray(char **src, char **dst, int size)
-{
-    int i;
-
-	i = 0;
-    if (dst)
-	{
-        while (dst[i]) 
-		{
-            free(dst[i]);
-            i++;
-        }
-        free(*dst);
-    }
-    dst = (char **)malloc(sizeof(char *) * (size + 1));
-    if (!dst)
-        return (dst);
-    while (i < size)
-    {
-        dst[i] = ft_strdup(src[i]);
-        if (!dst[i])
-        {
-            while (i >= 0)
-            {
-                free(dst[i]);
-                i--;
-            }
-            free(*dst);
-            return (dst);
-        }
-        i++;
-    }
-    dst[i] = NULL;
-    return (dst);
-}
-
-int	is_valid_map(char *s, char *extension)
+char	**ft_dupchararray(char **src, char **dst, int size)
 {
 	int	i;
 
 	i = 0;
-	while ((s[i + (ft_strlen(s) - 4)] != '\0') && i < 4)
+	dst = (char **)malloc(sizeof(char *) * (size + 1));
+	if (!dst)
+		return (dst);
+	while (i < size)
 	{
-		if (extension[i] != s[i + (ft_strlen(s) - 4)])
+		dst[i] = ft_strdup(src[i]);
+		if (!dst[i])
 		{
-			ft_print_error("File extension is not valid\n");
-			return (1);
+			while (i >= 0)
+			{
+				free(dst[i]);
+				i--;
+			}
+			free(*dst);
+			return (dst);
 		}
 		i++;
 	}
-	return (0);
+	dst[i] = NULL;
+	return (dst);
 }
 
-Mapa *inicializar_mapa()
+t_mapa	*inicializar_mapa(void)
 {
-	Mapa *mapa1;
+	t_mapa	*mapa1;
 
-	mapa1 = (Mapa *)malloc(sizeof(Mapa));
+	mapa1 = (t_mapa *)malloc(sizeof(t_mapa));
 	if (!mapa1)
 	{
 		ft_print_error("Memory allocation for Mapa data type failed\n");
@@ -109,6 +83,7 @@ Mapa *inicializar_mapa()
 	mapa1->line_count = 0;
 	mapa1->move_count = 0;
 	mapa1->collective = 0;
+	mapa1->collected = 0;
 	mapa1->exit = 0;
 	mapa1->start = 0;
 	mapa1->win = 0;

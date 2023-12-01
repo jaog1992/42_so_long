@@ -11,11 +11,10 @@
 /* ************************************************************************** */
 
 #include "so_long.h"
-#include "mlx_int.h"
 #include "mlx.h"
-#include "../libft/include/libft.h"
+#include "../libraries/libft/include/libft.h"
 
-void	ft_fill_floor(Mapa *mapa1)
+void	ft_fill_floor(t_mapa *mapa1)
 {
 	int	x;
 	int	y;
@@ -27,7 +26,7 @@ void	ft_fill_floor(Mapa *mapa1)
 		while (x < (int)mapa1->line_len)
 		{
 			mapa1->file = mlx_xpm_file_to_image(mapa1->ini,
-					"./assets/floor.xpm", &mapa1->pxl, &mapa1->pxl);
+					"./assets/textures/floor.xpm", &mapa1->pxl, &mapa1->pxl);
 			if (!mapa1->file)
 				ft_print_error("!mapa1->file\n");
 			mlx_put_image_to_window(mapa1->ini, mapa1->window,
@@ -38,7 +37,7 @@ void	ft_fill_floor(Mapa *mapa1)
 	}
 }
 
-void	ft_fill_window(Mapa *mapa1)
+void	ft_fill_window(t_mapa *mapa1)
 {
 	int	y;
 	int	x;
@@ -64,21 +63,23 @@ void	ft_fill_window(Mapa *mapa1)
 	}
 }
 
-void	ft_window(Mapa *mapa1)
+void	ft_window(t_mapa *mapa1)
 {
 	mapa1->pxl = 64;
 	mapa1->ini = mlx_init();
-	if(!mapa1->ini)
+	if (!mapa1->ini)
 	{
 		ft_print_error("MLX init returns NULL\n");
-	    free(mapa1->ini);
+		free(mapa1->ini);
 		return ;
 	}
-	mapa1->window = mlx_new_window(mapa1->ini, mapa1->pxl * (int)mapa1->line_len, mapa1->pxl * (int)mapa1->line_count, "jde-orma");
+	mapa1->window = mlx_new_window(mapa1->ini,
+			mapa1->pxl * (int)mapa1->line_len,
+			mapa1->pxl * (int)mapa1->line_count, "jde-orma");
 	ft_fill_window(mapa1);
 }
 
-int	ft_close_window(Mapa *mapa1)
+int	ft_close_window(t_mapa *mapa1)
 {
 	mlx_destroy_window(mapa1->ini, mapa1->window);
 	exit(1);

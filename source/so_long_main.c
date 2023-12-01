@@ -11,13 +11,39 @@
 /* ************************************************************************** */
 
 #include "so_long.h"
-#include "mlx_int.h"
 #include "mlx.h"
-#include "../libft/include/libft.h"
+#include "../libraries/libft/include/libft.h"
 
-void	parse_file(Mapa *mapa1, char **argv)
+int	error_check(char *line, t_mapa *mapa1, int i)
 {
-	int fd;
+	if (i == 0)
+		return (first_line_error_check(line, mapa1, 0));
+	else if (i == (mapa1->line_count - 1))
+		return (last_line_error_check(line, mapa1, 0));
+	else
+		return (middle_line_error_check(line, mapa1, i));
+}
+
+int	is_valid_map(char *s, char *extension)
+{
+	int	i;
+
+	i = 0;
+	while ((s[i + (ft_strlen(s) - 4)] != '\0') && i < 4)
+	{
+		if (extension[i] != s[i + (ft_strlen(s) - 4)])
+		{
+			ft_print_error("File extension is not valid\n");
+			return (1);
+		}
+		i++;
+	}
+	return (0);
+}
+
+void	parse_file(t_mapa *mapa1, char **argv)
+{
+	int	fd;
 
 	mapa1->line_count = ft_line_count(mapa1, argv[1]);
 	fd = open(argv[1], O_RDONLY);
@@ -26,7 +52,8 @@ void	parse_file(Mapa *mapa1, char **argv)
 		ft_print_error("Failed to open the text file. Check the spelling\n");
 		return ;
 	}
-	if (!(mapa1->map = read_file_lines(fd, mapa1)))
+	mapa1->map = read_file_lines(fd, mapa1);
+	if (!mapa1->map)
 	{
 		close(fd);
 		return ;
@@ -34,45 +61,51 @@ void	parse_file(Mapa *mapa1, char **argv)
 	close(fd);
 	if (mapa1->error > 0)
 		return ;
-	mapa1->map_copy = ft_dupchararray(mapa1->map, mapa1->map_copy, mapa1->line_count);
+	mapa1->map_copy = ft_dupchararray(mapa1->map, mapa1->map_copy,
+			mapa1->line_count);
 }
 
-void	map_ini(Mapa *mapa1, int argc, char **argv)
+void	map_ini(t_mapa *mapa1, int argc, char **argv)
 {
-
 	if (argument_checker(argc, argv) >= 1)
-    {
-        mapa1->error++;
+	{
+		mapa1->error++;
 		return ;
-    }
+	}
 	parse_file(mapa1, argv);
 	if (!mapa1)
-    {
-        mapa1->error++;
-		ft_printf("Mapa1 is still null...\n");
-    }
+	{
+		mapa1->error++;
+		ft_print_error("Map parsing returned null\n");
+	}
 	if (mapa1->error > 0)
 		return ;
-	if(ft_pathfinder(mapa1->map_copy, mapa1->y, mapa1->x, 
-                    mapa1->line_count, (int)mapa1->line_len) == 0)
+	if (!mapa1->map_copy)
+		ft_print_error("Map handling returned null\n");
+	if (ft_pathfinder(mapa1->map_copy, mapa1->y, mapa1->x, mapa1) == 0)
 	{
 		mapa1->error++;
 		ft_print_error("The map cannot be solved\n");
 	}
+	mapa1->collected = 0;
 }
 
 int	main(int argc, char **argv)
 {
-	Mapa 	*mapa1;
+	t_mapa	*mapa1;
 
 	mapa1 = inicializar_mapa();
 	map_ini(mapa1, argc, argv);
 	if (mapa1->error > 0)
-		return 1;
+	{
+		exit (1);
+		system("leaks so_long");
+		return (EXIT_FAILURE);
+	}
 	if (!mapa1)
 	{
 		ft_print_error("Wrong arguments");
-		return (1);
+		return (EXIT_FAILURE);
 	}
 	ft_window(mapa1);
 	mlx_hook(mapa1->window, ON_DESTROY, 1L << 5, ft_close_window, mapa1);
@@ -80,5 +113,6 @@ int	main(int argc, char **argv)
 	mlx_hook(mapa1->window, 25, 1L << 18, ft_keyboard, mapa1);
 	mlx_loop(mapa1->ini);
 	exit(0);
-	return (0);
+	system("leaks so_long");
+	return (EXIT_SUCCESS);
 }

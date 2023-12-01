@@ -11,15 +11,15 @@
 /* ************************************************************************** */
 
 #include "so_long.h"
-#include "mlx_int.h"
 #include "mlx.h"
-#include "../libft/include/libft.h"
+#include "../libraries/libft/include/libft.h"
 
-int	ft_line_count(Mapa *mapa1, char *argv)
+int	ft_line_count(t_mapa *mapa1, char *argv)
 {
-	char	*line = NULL;
+	char	*line;
 	int		fd;
 
+	line = NULL;
 	fd = open(argv, O_RDONLY);
 	line = ft_get_next_line(fd);
 	while (line)
@@ -49,18 +49,18 @@ char	**allocate_char_array(int size)
 	ptr = (char **)malloc(sizeof(char *) * (size + 1));
 	if (!ptr)
 	{
-	i = 0;
-    while (i < size)
-    {
-        free(ptr[i]);
-        i++;
-    }
-    free(ptr);
+		i = 0;
+		while (i < size)
+		{
+			free(ptr[i]);
+			i++;
+		}
+		free(ptr);
 	}
 	return (ptr);
 }
 
-char	**read_file_lines(int fd, Mapa *mapa1)
+char	**read_file_lines(int fd, t_mapa *mapa1)
 {
 	char	**ptr;
 	int		i;
@@ -73,7 +73,7 @@ char	**read_file_lines(int fd, Mapa *mapa1)
 	{
 		mapa1->line = ft_get_next_line(fd);
 		if (!mapa1->line)
-			break;
+			break ;
 		ptr[i] = ft_strdup(mapa1->line);
 		i++;
 	}
